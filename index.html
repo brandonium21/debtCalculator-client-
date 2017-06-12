@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div id="main" class="container">
         <div class="row">
             <div class="col">
             </div>
@@ -22,9 +22,14 @@
                 <br>
             </div>
             <div class="col">
+                <br>
+                <button type="button" style="margin-bottom: 10px;" onclick="savePDF(this)" class="btn btn-primary pull-right">Download</button>
             </div>
         </div>
         <div class="card">
+            <div class="card-header">
+                Mortgage 1
+            </div>
             <div class="card-block">
                 <div class="row">
                     <div class="col-12 col-md-6">
@@ -34,17 +39,18 @@
                                     <i data-toggle="tooltip" data-placement="right" title="The original amount financed with your mortgage, not to be confused with the remaining balance or principal balance." class="fa fa-info-circle" aria-hidden="true"></i>
                                 </div>
                                 <div class="col-11" style="padding-left: 0px;">
-                                    <input type="text" class="form-control" placeholder="Original Balance Due">
+                                    <input type="text" name="balance" class="form-control" placeholder="Original Balance Due">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col text-center" style="padding-right: 1px;">
-                                    <i data-toggle="tooltip" data-placement="right" title="Date of first payment." class="fa fa-info-circle" aria-hidden="true"></i>
+                                    <i data-toggle="tooltip" data-placement="right" title="Date of first payment. ex. 2017-08" class="fa fa-info-circle" aria-hidden="true"></i>
                                 </div>
                                 <div class="col-11" style="padding-left: 0px;">
-                                    <input type="text" class="form-control" placeholder="First Payment Date">
+                                    <input type="month" name="fpay" class="form-control" placeholder="First Payment Date">
                                 </div>
                             </div>
+                            <!--
                             <div class="form-group row">
                                 <div class="col text-center" style="padding-right: 1px;">
                                     <i data-toggle="tooltip" data-placement="right" title="Current Balance e.g. Original Balance - Current Balance." class="fa fa-info-circle" aria-hidden="true"></i>
@@ -53,12 +59,13 @@
                                     <input type="text" class="form-control" placeholder="Current Balance">
                                 </div>
                             </div>
+                        -->
                             <div class="form-group row">
                                 <div class="col text-center" style="padding-right: 1px;">
                                     <i data-toggle="tooltip" data-placement="right" title="The annual interest rate used to calculate your monthly payment. Please note that this is different than an Annual Percentage Rate (APR) which includes other expenses such as mortgage insurance, and the origination fee and or point(s), which were paid when the mortgage was first originated. The APR is normally higher than the simple interest rate." class="fa fa-info-circle" aria-hidden="true"></i>
                                 </div>
                                 <div class="col-11" style="padding-left: 0px;">
-                                    <input type="text" class="form-control" placeholder="Interest Rate">
+                                    <input type="text" name="irate" class="form-control" placeholder="Interest Rate">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -66,9 +73,10 @@
                                     <i data-toggle="tooltip" data-placement="right" title="# of Months in a fixed rate mortgage" class="fa fa-info-circle" aria-hidden="true"></i>
                                 </div>
                                 <div class="col-11" style="padding-left: 0px;">
-                                    <input type="text" class="form-control" placeholder="Terms">
+                                    <input type="text" name="terms" class="form-control" placeholder="Terms">
                                 </div>
                             </div>
+                            <!--
                             <div class="form-group row">
                                 <div class="col text-center" style="padding-right: 1px;">
                                     <i data-toggle="tooltip" data-placement="right" title="Next Payment Date" class="fa fa-info-circle" aria-hidden="true"></i>
@@ -77,21 +85,113 @@
                                     <input type="text" class="form-control" placeholder="Next Payment Date">
                                 </div>
                             </div>
+                        -->
                             <div class="form-group row">
                                 <div class="col text-center" style="padding-right: 1px;">
                                     <i data-toggle="tooltip" data-placement="right" title="Your proposed extra payment per month. This payment will be used to reduce your principal balance." class="fa fa-info-circle" aria-hidden="true"></i>
                                 </div>
                                 <div class="col-11" style="padding-left: 0px;">
-                                    <input type="text" class="form-control" placeholder="Additional Principal Paid">
+                                    <input type="text" name="xppaid" class="form-control" placeholder="Additional Principal Paid">
                                 </div>
                             </div>
-                            <button type="submit" style="margin-bottom: 10px;" class="btn btn-primary pull-right">Calculate</button>
+                            <button data-resulttable="1-resulttable" data-result="1-mortgage" onclick="calcMortgage(this)" type="button" style="margin-bottom: 10px;" class="btn btn-primary pull-right">Calculate</button>
                         </form>
                     </div>
                     <div class="col col-md-6">
                         <div class="card card-outline-info">
                             <div class="card-block">
                                 <h6>Results:</h6>
+                                <div id="1-mortgage">
+                                </div>
+                                <div id="1-resulttable">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- MORTGAGE ONE -->
+        <div class="card">
+            <div class="card-header">
+                Mortgage 2
+            </div>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <form>
+                            <div class="form-group row">
+                                <div class="col text-center" style="padding-right: 1px;">
+                                    <i data-toggle="tooltip" data-placement="right" title="The original amount financed with your mortgage, not to be confused with the remaining balance or principal balance." class="fa fa-info-circle" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-11" style="padding-left: 0px;">
+                                    <input type="text" name="balance" class="form-control" placeholder="Original Balance Due">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col text-center" style="padding-right: 1px;">
+                                    <i data-toggle="tooltip" data-placement="right" title="Date of first payment. ex. 2017-08" class="fa fa-info-circle" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-11" style="padding-left: 0px;">
+                                    <input type="month" name="fpay" class="form-control" placeholder="First Payment Date">
+                                </div>
+                            </div>
+                            <!--
+                            <div class="form-group row">
+                                <div class="col text-center" style="padding-right: 1px;">
+                                    <i data-toggle="tooltip" data-placement="right" title="Current Balance e.g. Original Balance - Current Balance." class="fa fa-info-circle" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-11" style="padding-left: 0px;">
+                                    <input type="text" class="form-control" placeholder="Current Balance">
+                                </div>
+                            </div>
+                        -->
+                            <div class="form-group row">
+                                <div class="col text-center" style="padding-right: 1px;">
+                                    <i data-toggle="tooltip" data-placement="right" title="The annual interest rate used to calculate your monthly payment. Please note that this is different than an Annual Percentage Rate (APR) which includes other expenses such as mortgage insurance, and the origination fee and or point(s), which were paid when the mortgage was first originated. The APR is normally higher than the simple interest rate." class="fa fa-info-circle" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-11" style="padding-left: 0px;">
+                                    <input type="text" name="irate" class="form-control" placeholder="Interest Rate">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col text-center" style="padding-right: 1px;">
+                                    <i data-toggle="tooltip" data-placement="right" title="# of Months in a fixed rate mortgage" class="fa fa-info-circle" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-11" style="padding-left: 0px;">
+                                    <input type="text" name="terms" class="form-control" placeholder="Terms">
+                                </div>
+                            </div>
+                            <!--
+                            <div class="form-group row">
+                                <div class="col text-center" style="padding-right: 1px;">
+                                    <i data-toggle="tooltip" data-placement="right" title="Next Payment Date" class="fa fa-info-circle" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-11" style="padding-left: 0px;">
+                                    <input type="text" class="form-control" placeholder="Next Payment Date">
+                                </div>
+                            </div>
+                        -->
+                            <div class="form-group row">
+                                <div class="col text-center" style="padding-right: 1px;">
+                                    <i data-toggle="tooltip" data-placement="right" title="Your proposed extra payment per month. This payment will be used to reduce your principal balance." class="fa fa-info-circle" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-11" style="padding-left: 0px;">
+                                    <input type="text" name="xppaid" class="form-control" placeholder="Additional Principal Paid">
+                                </div>
+                            </div>
+                            <button data-resulttable="2-resulttable" data-result="2-mortgage" onclick="calcMortgage(this)" type="button" style="margin-bottom: 10px;" class="btn btn-primary pull-right">Calculate</button>
+                        </form>
+                    </div>
+                    <div class="col col-md-6">
+                        <div class="card card-outline-info">
+                            <div class="card-block">
+                                <h6>Results:</h6>
+                                <div id="2-mortgage">
+                                </div>
+                                <div id="2-resulttable">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,7 +210,7 @@
                             <h6>Add Debt Calculator</h6>
                         </div>
                         <div class="col-2">
-                            <button type="submit" id="add_debt_calc" class="btn btn-sm btn-success pull-right">
+                            <button type="button" id="add_debt_calc" class="btn btn-sm btn-success pull-right">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -127,11 +227,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+    <script src='js/jsPDF-1.3.2/dist/jspdf.debug.js'></script>
+    <script src='js/jsPDF-1.3.2/libs/html2pdf.js'></script>
     <script type="text/javascript">
     var count = 1;
     $('#add_debt_calc').on('click', function() {
         if ($('.extra-debt-container').children('.card').length < 10) {
-            var new_calc = '<div class="card"> <div class="card-header"> <div class="row"> <div class="col"> <div class="row"> <div class="col"> <h6 style="padding-top: 4px;">Loan Calculator</h6> </div> <div class="col-3 col-sm-2 col-lg-1"> <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#' + count + '-colpseTarget" aria-expanded="false" aria-controls="' + count + '-colpseTarget"> <i class="fa fa-compress" aria-hidden="true"></i> <button type="submit" class="btn btn-danger btn-sm pull-right" onclick="deleteDoc(this)"> <i class="fa fa-minus" aria-hidden="true"></i> </button> </div> </div> </div> </div> </div> <div class="card-block collapse show" id="' + count + '-colpseTarget"> <div class="row"> <div class="col-12 col-md-6"> <form class="loan-form" data-result="' + count + '-results"> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Creditor name for reference." class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="text" class="form-control" name="creditor" placeholder="Name of Creditor"> </div> </div> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Date of first payment ex. 2016-08" class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="month" class="form-control" name="date-start" placeholder="Date of first payment"> </div> </div> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Current Balance." class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="text" class="form-control" name="balance" placeholder="Balance"> </div> </div> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Minimum payment per month" class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="text" class="form-control" name="min-pay" placeholder="Minimum Payment"> </div> </div> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Loan Interest Rate." class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="text" name="rate" class="form-control" placeholder="Interest Rate (%)"> </div> </div> </form> </div> <div class="col col-md-6"> <div class="card card-outline-info"> <div class="card-block"> <h6>Results:</h6> <div id="' + count + '-results"> </div> </div> </div> <p class="text-muted">Auto updates...</p> </div> </div> </div> </div> <br>';
+            var new_calc = '<div class="card"> <div class="card-header"> <div class="row"> <div class="col"> <div class="row"> <div class="col"> <h6 style="padding-top: 4px;">Loan Calculator</h6> </div> <div class="col-3 col-sm-2 col-lg-1"> <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#' + count + '-colpseTarget" aria-expanded="false" aria-controls="' + count + '-colpseTarget"> <i class="fa fa-compress" aria-hidden="true"></i> <button type="submit" class="btn btn-danger btn-sm pull-right" onclick="deleteDoc(this)"> <i class="fa fa-minus" aria-hidden="true"></i> </button> </div> </div> </div> </div> </div> <div class="card-block collapse show" id="' + count + '-colpseTarget"> <div class="row"> <div class="col-12 col-md-6"> <form class="loan-form" data-ltabr="' + count + '-tresultstablel" data-result="' + count + '-results"> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Creditor name for reference." class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="text" class="form-control" name="creditor" placeholder="Name of Creditor"> </div> </div> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Date of first payment ex. 2016-08" class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="month" class="form-control" name="date-start" placeholder="Date of first payment"> </div> </div> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Current Balance." class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="text" class="form-control" name="balance" placeholder="Balance"> </div> </div> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Minimum payment per month" class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="text" class="form-control" name="min-pay" placeholder="Minimum Payment"> </div> </div> <div class="form-group row"> <div class="col text-center" style="padding-right: 1px;"> <i data-toggle="tooltip" data-placement="right" title="Loan Interest Rate." class="fa fa-info-circle" aria-hidden="true"></i> </div> <div class="col-11" style="padding-left: 0px;"> <input type="text" name="rate" class="form-control" placeholder="Interest Rate (%)"> </div> </div> </form> </div> <div class="col col-md-6"> <div class="card card-outline-info"> <div class="card-block"> <h6>Results:</h6> <div id="' + count + '-results"> </div> <div id="' + count + '-tresultstablel"> </div> </div>  </div> <p class="text-muted">Auto updates...</p> </div> </div> </div> </div> <br>';
             $('.extra-debt-container').append(new_calc);
             count += 1;
             $(function() {
@@ -150,13 +252,22 @@
                 });
                 console.log(values);
                 var endpay = moment((values['date-start'] + '-12'), 'YYYY-MM-DD');
-                var numPayments = (-1 * NPER((values['rate'] / 100.0),values['min-pay'], values['balance']));
+                var numPayments = (-1 * NPER((values['rate'] / 100.0), values['min-pay'], values['balance']));
                 var finalPay = endpay.add((Math.round((numPayments / 12))), 'M');
                 var resultId = $(this).data('result');
+                var resultIdTableL = $(this).data('ltabr');
+                console.log(resultIdTableL);
                 var totIntPaid = (-1 * Math.round((numPayments * values['min-pay']) - values['balance']));
                 $('#' + resultId).html('<b>Pay Off Date:</b><p>' + finalPay.format('YYYY-MM') + '</p><br> <b>Total Interest Paid:</b><p>$' + totIntPaid.toString() + '</p>');
                 console.log(finalPay);
+
+                var l_table = '<hr/><table style="width:100%">                                        <tr>                                            <th>Variable</th>                                            <th>Value</th>                                        </tr>                                        <tr>                                            <td>Balance($)</td>                                            <td>' + values['balance'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Start Date</td>                                            <td>' + values['date-start'] + '</td>                                        </tr>                                        <tr>                                            <td>Interest Rate(%)</td>                                            <td>' + values['rate'].toString() + '</td>                                        </tr>                                                                                              <tr>                                            <td><b>Pay Off Date</b></td>                                            <td><b>' + finalPay.format('YYYY-MM') + '</b></td>                                        </tr>                                        <tr>                                            <td><b>Total Interest Paid($)</b></td>                                            <td><b>' + totIntPaid.toString() + '</b></td>                                        </tr>                                    </table>';
+                if (totIntPaid) {
+                    $('#' + resultIdTableL).html(l_table);
+                }
+
             });
+
 
         } else {
             alert('No more than 10 Calculators maybe created! Please delete another.')
@@ -180,12 +291,65 @@
         return Math.log(num / den) / Math.log(1 + rate);
     }
 
+    function PMT(rate, nper, pv, fv, type) {
+        if (!fv) fv = 0.0;
+        if (!type) type = 0.0;
+
+        if (rate == 0.0) return -(pv + fv) / nper;
+
+        var pvif = Math.pow(1.0 + rate, nper);
+        var pmt = rate / (pvif - 1.0) * -(pv * pvif + fv);
+
+        if (type == 1) {
+            pmt /= (1 + rate);
+        };
+
+        return pmt;
+    }
+
+    function calcMortgage(ho) {
+        var values = {};
+        var numPayments = 0.0;
+        $.each($(ho).parents('form:first').serializeArray(), function(i, field) {
+            if (field.name == 'fpay') {
+                values[field.name] = field.value;
+            } else {
+                values[field.name] = parseFloat(field.value);
+            }
+        });
+        console.log(values);
+        console.log(ho);
+        var resultId = $(ho).data('result');
+        var resultIdTable = $(ho).data('resulttable');
+        var endpayM = moment((values['fpay'] + '-12'), 'YYYY-MM-DD');
+        var finalPayM = endpayM.add(values['terms'], 'M');
+        var payAmt = (-PMT((values['irate'] / 100.0), values['terms'], values['balance'])) + values['xppaid'];
+        var totIntPaidM = Math.round((payAmt * values['terms']) - values['balance']);
+        $('#' + resultId).html('<b>Pay Off Date:</b><p>' + finalPayM.format('YYYY-MM') + '</p><br> <b>Total Interest Paid:</b><p>$' + totIntPaidM.toString() + '</p>');
+
+        var m_table = '<hr/><table style="width:100%">                                        <tr>                                            <th>Variable</th>                                            <th>Value</th>                                        </tr>                                        <tr>                                            <td>Balance($)</td>                                            <td>' + values['balance'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Start Date</td>                                            <td>' + values['fpay'] + '</td>                                        </tr>                                        <tr>                                            <td>Interest Rate(%)</td>                                            <td>' + values['irate'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Terms(Months)</td>                                            <td>' + values['terms'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Additional Principal Paid($)</td>                                            <td>' + values['xppaid'].toString() + '</td>                                        </tr>                                        <tr>                                            <td><b>Pay Off Date</b></td>                                            <td><b>' + finalPayM.format('YYYY-MM') + '</b></td>                                        </tr>                                        <tr>                                            <td><b>Total Interest Paid($)</b></td>                                            <td><b>' + totIntPaidM.toString() + '</b></td>                                        </tr>                                    </table>';
+        if (totIntPaidM) {
+            $('#' + resultIdTable).html(m_table);
+        }
+    }
+
     function deleteDoc(love) {
         var del = confirm("Are you sure you want to delete this Calculator");
         if (del) {
             $(love).parents(".card").remove();
             count -= 1;
         }
+    }
+
+    function savePDF() {
+        var date = moment();
+        var pdf = new jsPDF('l', 'pt', 'a4');
+        pdf.canvas.height = document.body.clientHeight;
+        pdf.canvas.width = document.body.clientWidth;
+        html2pdf(document.body, pdf, function(pdf) {
+            $('#main').collapse('show');
+            pdf.save('LoanResults-' + date.format('YYYY_MM_DD'));
+        });
     }
     </script>
 </body>
