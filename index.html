@@ -22,8 +22,10 @@
                 <br>
             </div>
             <div class="col">
+                <!--
                 <br>
                 <button type="button" style="margin-bottom: 10px;" onclick="savePDF(this)" class="btn btn-primary pull-right">Download</button>
+            -->
             </div>
         </div>
         <div class="card">
@@ -229,6 +231,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
     <script src='js/jsPDF-1.3.2/dist/jspdf.debug.js'></script>
     <script src='js/jsPDF-1.3.2/libs/html2pdf.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>
     <script type="text/javascript">
     var count = 1;
     $('#add_debt_calc').on('click', function() {
@@ -244,7 +247,7 @@
                 var values = {};
                 var numPayments = 0.0;
                 $.each($(this).serializeArray(), function(i, field) {
-                    if (field.name == 'date-start') {
+                    if (field.name == 'date-start' || field.name == 'creditor') {
                         values[field.name] = field.value;
                     } else {
                         values[field.name] = parseFloat(field.value);
@@ -261,9 +264,27 @@
                 $('#' + resultId).html('<b>Pay Off Date:</b><p>' + finalPay.format('YYYY-MM') + '</p><br> <b>Total Interest Paid:</b><p>$' + totIntPaid.toString() + '</p>');
                 console.log(finalPay);
 
-                var l_table = '<hr/><table style="width:100%">                                        <tr>                                            <th>Variable</th>                                            <th>Value</th>                                        </tr>                                        <tr>                                            <td>Balance($)</td>                                            <td>' + values['balance'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Start Date</td>                                            <td>' + values['date-start'] + '</td>                                        </tr>                                        <tr>                                            <td>Interest Rate(%)</td>                                            <td>' + values['rate'].toString() + '</td>                                        </tr>                                                                                              <tr>                                            <td><b>Pay Off Date</b></td>                                            <td><b>' + finalPay.format('YYYY-MM') + '</b></td>                                        </tr>                                        <tr>                                            <td><b>Total Interest Paid($)</b></td>                                            <td><b>' + totIntPaid.toString() + '</b></td>                                        </tr>                                    </table>';
+                var l_table = '<hr/><table  id = "table_l-' + resultIdTableL + '"style="width:100%">                                        <tr>                                            <th>Variable</th>                                            <th>Value</th>                                        </tr>                                        <tr>                                            <td>Creditor</td>                                            <td>' + values['creditor'] + '</td>                                        </tr> <tr>                                            <td>Balance($)</td>                                            <td>' + values['balance'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Start Date</td>                                            <td>' + values['date-start'] + '</td>                                        </tr>                                        <tr>                                            <td>Interest Rate(%)</td>                                            <td>' + values['rate'].toString() + '</td>                                        </tr>                                                                                              <tr>                                            <td>Pay Off Date</td>                                            <td>' + finalPay.format('YYYY-MM') + '</td>                                        </tr>                                        <tr>                                            <td>Total Interest Paid($)</td>                                            <td>' + totIntPaid.toString() + '</td>                                        </tr>                                    </table>';
                 if (totIntPaid) {
                     $('#' + resultIdTableL).html(l_table);
+
+                    var tbl_col = ["Variable", "Value"];
+                    var tbl_rows = $('table#table_l-' + resultIdTableL + ' tr').get().map(function(row) {
+                        return $(row).find('td').get().map(function(cell) {
+                            return $(cell).html();
+                        });
+                    });
+                    var doc = new jsPDF('p', 'pt');
+                    doc.autoTable(tbl_col, tbl_rows, {
+                        margin: {
+                            top: 60
+                        },
+                        addPageContent: function(data) {
+                            doc.text("Creditor Loan Results", 40, 30);
+                        }
+                    });
+                    savePDF(doc);
+
                 }
 
             });
@@ -327,9 +348,27 @@
         var totIntPaidM = Math.round((payAmt * values['terms']) - values['balance']);
         $('#' + resultId).html('<b>Pay Off Date:</b><p>' + finalPayM.format('YYYY-MM') + '</p><br> <b>Total Interest Paid:</b><p>$' + totIntPaidM.toString() + '</p>');
 
-        var m_table = '<hr/><table style="width:100%">                                        <tr>                                            <th>Variable</th>                                            <th>Value</th>                                        </tr>                                        <tr>                                            <td>Balance($)</td>                                            <td>' + values['balance'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Start Date</td>                                            <td>' + values['fpay'] + '</td>                                        </tr>                                        <tr>                                            <td>Interest Rate(%)</td>                                            <td>' + values['irate'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Terms(Months)</td>                                            <td>' + values['terms'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Additional Principal Paid($)</td>                                            <td>' + values['xppaid'].toString() + '</td>                                        </tr>                                        <tr>                                            <td><b>Pay Off Date</b></td>                                            <td><b>' + finalPayM.format('YYYY-MM') + '</b></td>                                        </tr>                                        <tr>                                            <td><b>Total Interest Paid($)</b></td>                                            <td><b>' + totIntPaidM.toString() + '</b></td>                                        </tr>                                    </table>';
+        var m_table = '<hr/><table id= "table_m-' + resultIdTable + '" style="width:100%">                                        <tr>                                            <th>Variable</th>                                            <th>Value</th>                                        </tr>                                        <tr>                                            <td>Balance($)</td>                                            <td>' + values['balance'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Start Date</td>                                            <td>' + values['fpay'] + '</td>                                        </tr>                                        <tr>                                            <td>Interest Rate(%)</td>                                            <td>' + values['irate'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Terms(Months)</td>                                            <td>' + values['terms'].toString() + '</td>                                        </tr>                                        <tr>                                            <td>Additional Principal Paid($)</td>                                            <td>' + values['xppaid'].toString() + '</td>                                        </tr>                                        <tr>                                            <td><b>Pay Off Date</b></td>                                            <td><b>' + finalPayM.format('YYYY-MM') + '</b></td>                                        </tr>                                        <tr>                                            <td>Total Interest Paid($)</td>                                            <td>' + totIntPaidM.toString() + '</td>                                        </tr>                                    </table>';
         if (totIntPaidM) {
             $('#' + resultIdTable).html(m_table);
+            var tbl_col = ["Variable", "Value"];
+            var tbl_rows = $('table#table_m-' + resultIdTable + ' tr').get().map(function(row) {
+                return $(row).find('td').get().map(function(cell) {
+                    return $(cell).html();
+                });
+            });
+            var doc = new jsPDF('p', 'pt');
+            doc.autoTable(tbl_col, tbl_rows, {
+                margin: {
+                    top: 60
+                },
+                addPageContent: function(data) {
+                    doc.text("Mortgage Loan Results", 40, 30);
+                }
+            });
+            savePDF(doc);
+
+
         }
     }
 
@@ -341,15 +380,9 @@
         }
     }
 
-    function savePDF() {
+    function savePDF(doc) {
         var date = moment();
-        var pdf = new jsPDF('l', 'pt', 'a4');
-        pdf.canvas.height = document.body.clientHeight;
-        pdf.canvas.width = document.body.clientWidth;
-        html2pdf(document.body, pdf, function(pdf) {
-            $('#main').collapse('show');
-            pdf.save('LoanResults-' + date.format('YYYY_MM_DD'));
-        });
+        doc.save('LoanResults-' + date.format('YYYY_MM_DD') + '.pdf');
     }
     </script>
 </body>
